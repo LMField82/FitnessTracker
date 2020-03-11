@@ -9,7 +9,7 @@ module.exports = function(app) {
     });
 
     //this route should add a new workout to the table
-    app.post("/api/workouts", (req, res) => {
+    app.post("/api/workouts/new", (req, res) => {
         const data = req.body;
         
         Workout.create(data)
