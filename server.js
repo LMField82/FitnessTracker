@@ -13,9 +13,6 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/contactList", {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-//Set up request loggin
-app.use(logger("dev"));
-
 //Static Directory
 app.use(express.static("public"));
 
