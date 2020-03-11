@@ -1,17 +1,23 @@
 //Dependencies
 const express = require("express");
 const mongoose = require("mongoose");
+const logger = require("morgan");
 
 //Set up Express App
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 //Connecting to remote Mongo db or local db
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/contactList", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
+
+// Sets up request logging
+app.use(logger("dev"));
 
 //Set up express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+
 
 //Static Directory
 app.use(express.static("public"));
