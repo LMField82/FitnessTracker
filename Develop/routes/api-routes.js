@@ -1,10 +1,17 @@
 const { Workout } = require("../models");
+// const router = require("express").Router();
 
 module.exports = function(app) {
     //this route should display all the logged exercises
     app.get("/api/workouts", (req, res) => {
         Workout.find({})
             .then(workouts => res.json(workouts))
+            .catch(err => console.log(err));
+    });
+
+    app.get("/api/workouts/range", (req, res) => {
+        Workout.find().sort({"_id":-1}).limit(7)
+            .then(result => res.json(result))
             .catch(err => console.log(err));
     });
 
@@ -22,10 +29,10 @@ module.exports = function(app) {
             .catch(err => console.log(err));
     });
 
-    //this route should delete a workout from the table if the id matches the ":id" url param
-    app.delete("/api/workouts", ({body}, res) => {
-        Workout.findByIdAndDelete(body.id)
-            .then(() => res.json(true))
-            .catch(err => console.log(err));
-    });
+    // //this route should delete a workout from the table if the id matches the ":id" url param
+    // app.delete("/api/workouts", ({body}, res) => {
+    //     Workout.findByIdAndDelete(body.id)
+    //         .then(() => res.json(true))
+    //         .catch(err => console.log(err));
+    // });
 }
