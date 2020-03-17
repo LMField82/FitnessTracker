@@ -5,7 +5,7 @@ module.exports = function(app) {
     //this route should display all the logged exercises
     app.get("/api/workouts", (req, res) => {
         Workout.find({})
-            .then(workouts => res.json(workouts))
+            .then(results => res.json(results))
             .catch(err => console.log(err));
     });
 
@@ -17,15 +17,15 @@ module.exports = function(app) {
 
     //this route should add a new workout to the table
     app.post("/api/workouts", (req, res) => { 
-         Workout.create({})
-            .then(workout => res.json(workout))
+         Workout.create(req.body)
+            .then(data => res.json(data))
             .catch(err => res.status(422).send(err));
     });
 
     //this route should update a workoute from the table if the ":id" matches
-    app.put("/api/workouts/:id", ({body, params}, res) => {
-        Workout.findByIdAndUpdate(params.id, {$push:{exercises: body}}, {new: true, runValidators: true})//may try _id
-            .then(workout => res.json(workout))
+    app.put("/api/workouts/:id", (req, res) => {
+        Workout.update({ _id:req.params.id }, {$push:{exercises: body}}, {new: true, runValidators: true})
+            .then(response => res.json(response))
             .catch(err => console.log(err));
     });
 

@@ -1,44 +1,60 @@
 const mongoose = require("mongoose");
+
 const Schema = mongoose.Schema;
 
-const WorkoutSchema = new Schema({
+const workoutSchema = new Schema(
+  {
     day: {
-        type: Date,
-        default: Date.now
+      type: Date,
+      default: () => new Date()
     },
-    exercise: [
-        {
+    exercises: [
+      {
         type: {
-            type: String,
-            trim: true,
-            required: "Enter an exercise type."
-        }, 
+          type: String,
+          trim: true,
+          required: "Enter an exercise type"
+        },
         name: {
-            type: String,
-            trim: true,
-            required: "Enter an exercise name."
+          type: String,
+          trim: true,
+          required: "Enter an exercise name"
         },
         duration: {
-            type: Number,
-            required: "Enter the duration of the exercise."
+          type: Number,
+          required: "Enter an exercise duration in minutes"
         },
         weight: {
-            type: Number
-        },
-        sets: {
-            type: Number
+          type: Number
         },
         reps: {
-            type: Number
+          type: Number
+        },
+        sets: {
+          type: Number
         },
         distance: {
-            type: Number
+          type: Number
         }
-     }
-  ]
+      }
+    ]
+  },
+  {
+    toJSON: {
+      // include any virtual properties when data is requested
+      virtuals: true
+    }
+  }
+);
+
+// adds a dynamically-created property to schema
+workoutSchema.virtual("totalDuration").get(function () {
+  // "reduce" array of exercises down to just the sum of their durations
+  return this.exercises.reduce((total, exercise) => {
+    return total + exercise.duration;
+  }, 0);
 });
 
-//passing schema in and creating a mongoose model called "Workout" with it
-const Workout = mongoose.model("Workout", WorkoutSchema);
-//exporting model so routes can use it to interact with collection
+const Workout = mongoose.model("Workout", workoutSchema);
+
 module.exports = Workout;

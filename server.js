@@ -8,7 +8,10 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 //Connecting to remote Mongo db or local db
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { 
+    useNewUrlParser: true,
+    useFindAndModify: false
+});
 
 // Sets up request logging
 app.use(logger("dev"));
