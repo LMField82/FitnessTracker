@@ -6,6 +6,6 @@ This app will allow it's user to track their workouts and keep a list of previou
 
 ## Usage
 This app must be installed by running 'npm install' in the command line. 
-Or by visiting the deployed url at: 
+Or by visiting the deployed url at: https://pacific-journey-52441.herokuapp.com/
 
 
