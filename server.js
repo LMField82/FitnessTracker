@@ -7,12 +7,6 @@ const logger = require("morgan");
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-//Connecting to remote Mongo db or local db
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { 
-    useNewUrlParser: true,
-    useFindAndModify: false
-});
-
 // Sets up request logging
 app.use(logger("dev"));
 
@@ -20,14 +14,18 @@ app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
-
 //Static Directory
 app.use(express.static("public"));
 
+//Connecting to remote Mongo db or local db
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { 
+    useNewUrlParser: true,
+    useFindAndModify: false
+});
+
 //Routes
-require("./Develop/routes/api-routes")(app);
-require("./Develop/routes/html-routes")(app);
+require("./routes/api-routes")(app);
+require("./routes/html-routes")(app);
 
 //Starting the Express app
 app.listen(PORT, () => {

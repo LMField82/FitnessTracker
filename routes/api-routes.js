@@ -17,14 +17,14 @@ module.exports = function(app) {
 
     //this route should add a new workout to the table
     app.post("/api/workouts", (req, res) => { 
-         Workout.create(req.body)
+         Workout.create({})
             .then(data => res.json(data))
             .catch(err => res.status(422).send(err));
     });
 
     //this route should update a workoute from the table if the ":id" matches
-    app.put("/api/workouts/:id", (req, res) => {
-        Workout.update({ _id:req.params.id }, {$push:{exercises: body}}, {new: true, runValidators: true})
+    app.put("/api/workouts/:id", ({body, params}, res) => {
+        Workout.findByIdAndUpdate(params.id, {$push:{exercises: body}}, {new: true, runValidators: true})
             .then(response => res.json(response))
             .catch(err => console.log(err));
     });
